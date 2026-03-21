@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd-practica
+  labels:
+    app: cicd-practica
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cicd-practica
+  template:
+    metadata:
+      labels:
+        app: cicd-practica
+    spec:
+      containers:
+        - name: cicd-practica
+          image: evros13/cicd-practica:latest
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
