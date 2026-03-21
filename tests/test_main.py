@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app, tasks
+from app.main import app, tasks
 
 client = TestClient(app)
 
@@ -41,3 +41,15 @@ def test_get_tasks_after_create():
     response = client.get("/tasks")
     assert response.status_code == 200
     assert len(response.json()) == 1
+
+
+def test_delete_task():
+    task = {"id": 1, "title": "Tarea a borrar", "done": False}
+    client.post("/tasks", json=task)
+    response = client.delete("/tasks/1")
+    assert response.status_code == 204
+
+
+def test_delete_task_not_found():
+    response = client.delete("/tasks/999")
+    assert response.status_code == 404

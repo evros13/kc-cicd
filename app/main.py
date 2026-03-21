@@ -30,3 +30,12 @@ def create_task(task: Task):
             raise HTTPException(status_code=400, detail="Task already exists")
     tasks.append(task)
     return task
+
+
+@app.delete("/tasks/{task_id}", status_code=204)
+def delete_task(task_id: int):
+    for i, t in enumerate(tasks):
+        if t.id == task_id:
+            tasks.pop(i)
+            return
+    raise HTTPException(status_code=404, detail="Task not found")
