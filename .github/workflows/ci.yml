@@ -13,7 +13,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,10 +30,10 @@ jobs:
       - name: Run tests with coverage
         run: |
           pytest tests/ -v --cov=app --cov-report=xml --cov-report=term
+
   lint:
     runs-on: ubuntu-latest
     needs: test
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,10 +53,10 @@ jobs:
 
       - name: Run bandit
         run: bandit -r app/
+
   security:
     runs-on: ubuntu-latest
     needs: lint
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,6 +75,7 @@ jobs:
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
   build:
     runs-on: ubuntu-latest
     needs: security
