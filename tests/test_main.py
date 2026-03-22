@@ -5,7 +5,6 @@ client = TestClient(app)
 
 
 def setup_function():
-    """Limpia la lista de tareas antes de cada test"""
     tasks.clear()
 
 
@@ -22,21 +21,21 @@ def test_get_tasks_empty():
 
 
 def test_create_task():
-    task = {"id": 1, "title": "Aprender CI/CD", "done": False}
+    task = {"id": 1, "title": "Testing Task Creation", "done": False}
     response = client.post("/tasks", json=task)
     assert response.status_code == 201
-    assert response.json()["title"] == "Aprender CI/CD"
+    assert response.json()["title"] == "Testing Task Creation"
 
 
 def test_create_duplicate_task():
-    task = {"id": 1, "title": "Tarea duplicada", "done": False}
+    task = {"id": 1, "title": "Testing Duplicate Task", "done": False}
     client.post("/tasks", json=task)
     response = client.post("/tasks", json=task)
     assert response.status_code == 400
 
 
 def test_get_tasks_after_create():
-    task = {"id": 1, "title": "Mi tarea", "done": False}
+    task = {"id": 1, "title": "Testing Get Tasks After Adding Task", "done": False}
     client.post("/tasks", json=task)
     response = client.get("/tasks")
     assert response.status_code == 200
@@ -44,7 +43,7 @@ def test_get_tasks_after_create():
 
 
 def test_delete_task():
-    task = {"id": 1, "title": "Tarea a borrar", "done": False}
+    task = {"id": 1, "title": "Testing Task Deletion", "done": False}
     client.post("/tasks", json=task)
     response = client.delete("/tasks/1")
     assert response.status_code == 204
